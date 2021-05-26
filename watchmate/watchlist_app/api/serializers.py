@@ -2,17 +2,21 @@ from rest_framework import serializers
 from watchlist_app.models import WatchList, StreamPlatform
 
 
-class StreamPlatformSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = StreamPlatform
-        fields = "__all__"
-
-
 class WatchListSerializer(serializers.ModelSerializer):
     # len_name = serializers.SerializerMethodField()
     class Meta:
         model = WatchList
         fields =  "__all__"  #to get all fields at once
+
+
+class StreamPlatformSerializer(serializers.ModelSerializer):
+    watchlist = WatchListSerializer(many=True, read_only=True)
+    class Meta:
+        model = StreamPlatform
+        fields = "__all__"
+
+
+
 
         # fields = ['id', 'name', 'description'] #individual fields
         # exclude = ['active'] #if we don't want specifif field

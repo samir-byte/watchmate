@@ -25,19 +25,19 @@ class StreamPlatformDetailAV(APIView):
             obj = StreamPlatform.objects.get(pk=pk)
         except StreamPlatform.DoesNotExist:
             return Response(status=status.HTTP_204_NO_CONTENT)
-        serializer = StreamPlatform(obj)
+        serializer = StreamPlatformSerializer(obj)
         return Response(serializer.data)
 
     def put(self,request,pk):
         obj = StreamPlatform.objects.get(pk=pk)
-        serializer = StreamPlatform(obj, data=request.data)
+        serializer = StreamPlatformSerializer(obj, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
         return Response(status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self,request,pk):
-        obj = StreamPlatform.objects.get(pk=pk)
+        obj = StreamPlatformSerializer.objects.get(pk=pk)
         obj.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
