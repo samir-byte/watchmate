@@ -8,6 +8,7 @@ from rest_framework.views import APIView
 from rest_framework import generics
 # from rest_framework import mixins
 from rest_framework import viewsets
+from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 
 from watchlist_app.models import WatchList, StreamPlatform, Review
 from watchlist_app.api.serializers import (WatchListSerializer, 
@@ -31,6 +32,7 @@ class ReviewCreate(generics.CreateAPIView):
 
 
 class ReviewList(generics.ListAPIView):
+    # permission_classes = [IsAuthenticated]
     # queryset = Review.objects.all()
     serializer_class = ReviewSerializer
 
@@ -39,6 +41,7 @@ class ReviewList(generics.ListAPIView):
         return Review.objects.filter(watchlist = pk)
 
 class ReviewDetail(generics.RetrieveUpdateDestroyAPIView):
+    permission_classes = [IsAuthenticatedOrReadOnly]
     queryset = Review.objects.all()
     serializer_class = ReviewSerializer
 
@@ -146,6 +149,7 @@ class WatchListAV(APIView):
             return Response(serializer.errors)
 
 class WatchDetailsAV(APIView):
+    
     def get(self,request,pk):
         try:
             movie = WatchList.objects.get(pk=pk)
