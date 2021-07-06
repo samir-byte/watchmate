@@ -9,6 +9,7 @@ from rest_framework import generics
 # from rest_framework import mixins
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
+from rest_framework.throttling import UserRateThrottle, AnonRateThrottle
 
 from watchlist_app.api.permissions import AdminOrReadOnly, ReviewUserOrReadOnly
 
@@ -18,6 +19,7 @@ from watchlist_app.api.serializers import (WatchListSerializer,
                                             ReviewSerializer)
 
 class ReviewCreate(generics.CreateAPIView):
+    permission_classes = [IsAuthenticated]
     serializer_class = ReviewSerializer
 
     def get_queryset(self):
@@ -41,7 +43,7 @@ class ReviewCreate(generics.CreateAPIView):
 
 
 class ReviewList(generics.ListAPIView):
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
     # queryset = Review.objects.all()
     serializer_class = ReviewSerializer
 
@@ -53,6 +55,8 @@ class ReviewDetail(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [ReviewUserOrReadOnly]
     queryset = Review.objects.all()
     serializer_class = ReviewSerializer
+    throttle_classes = [UserRateThrottle]
+    throttle_classes = [AnonRateThrottle]
 
 
 ##generic api views and use of mixins 
@@ -76,6 +80,7 @@ class ReviewDetail(generics.RetrieveUpdateDestroyAPIView):
 
 ##model view sets implementation 
 class StreamPlatformVS(viewsets.ModelViewSet):
+    permission_classes = [AdminOrReadOnly]
     queryset = StreamPlatform.objects.all()
     serializer_class = StreamPlatformSerializer
 
@@ -109,6 +114,7 @@ class StreamPlatformVS(viewsets.ModelViewSet):
 
 
 class StreamPlatformListAV(APIView):
+    permission_classes = [AdminOrReadOnly]
     def get(self,request):
         stream = StreamPlatform.objects.all()
         serializer = StreamPlatformSerializer(stream, many=True)
@@ -122,6 +128,7 @@ class StreamPlatformListAV(APIView):
         return Response(serializer.errors)
 
 class StreamPlatformDetailAV(APIView):
+    permission_classes = [AdminOrReadOnly]
     def get(self,request,pk):
         try:
             obj = StreamPlatform.objects.get(pk=pk)
@@ -144,6 +151,7 @@ class StreamPlatformDetailAV(APIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 class WatchListAV(APIView):
+    permission_classes = [AdminOrReadOnly]
     def get(self,request):
         movies = WatchList.objects.all()
         serializer = WatchListSerializer(movies, many=True)
@@ -158,7 +166,7 @@ class WatchListAV(APIView):
             return Response(serializer.errors)
 
 class WatchDetailsAV(APIView):
-    
+    permission_classes = [AdminOrReadOnly]
     def get(self,request,pk):
         try:
             movie = WatchList.objects.get(pk=pk)
