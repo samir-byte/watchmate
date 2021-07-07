@@ -19,6 +19,16 @@ from watchlist_app.api.serializers import (WatchListSerializer,
                                             StreamPlatformSerializer, 
                                             ReviewSerializer)
 
+class UserReview(generics.ListAPIView):
+    serializer_class = ReviewSerializer
+    # def get_queryset(self):
+    #     username = self.kwargs['username']
+    #     return Review.objects.filter(user_name__username=username)
+
+    def get_queryset(self):
+        username = self.request.query_params.get('username')
+        return Review.objects.filter(user_name__username=username)
+
 class ReviewCreate(generics.CreateAPIView):
     permission_classes = [IsAuthenticated]
     serializer_class = ReviewSerializer
