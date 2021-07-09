@@ -15,6 +15,8 @@ from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters
 
 from watchlist_app.api.permissions import AdminOrReadOnly, ReviewUserOrReadOnly
+from watchlist_app.api.pagination import (WatchlistResultPagination, WatchlistLimitOffsetPagination,
+                                                WatchListCursorPagination)
 
 from watchlist_app.models import WatchList, StreamPlatform, Review
 from watchlist_app.api.serializers import (WatchListSerializer, 
@@ -192,8 +194,9 @@ class WatchListAV(generics.ListAPIView):
     # filter_backends = [filters.SearchFilter]
     search_fields = ['title', 'platform__name']
     
-    filter_backends = [filters.OrderingFilter]
-    ordering_fields = ['avg_rating']
+    # filter_backends = [filters.OrderingFilter]
+    # ordering_fields = ['avg_rating']
+    pagination_class = WatchListCursorPagination
 
 class WatchDetailsAV(APIView):
     permission_classes = [AdminOrReadOnly]

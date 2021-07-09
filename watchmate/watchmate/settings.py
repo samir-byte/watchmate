@@ -151,9 +151,11 @@ REST_FRAMEWORK = {
         'user': '3/day',
         'review-create': '1/day',
         'review-list': '10/day'
-    }
+    },
+    'DEFAULT_RENDERER_CLASSES': [
+        'rest_framework.renderers.JSONRenderer',
         
-    
+    ]
 }
 # SIMPLE_JWT = {
 #     'ROTATE_REFRESH_TOKENS': True,
