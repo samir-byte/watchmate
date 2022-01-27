@@ -4,26 +4,12 @@ This README would normally document whatever steps are necessary to get your app
 
 ### What is this repository for? ###
 
-* Quick summary
+* Quick summary 
+  * This was my first Django Rest Framework project which was learnt while following the udemy course Build REST APIs with Django REST Framework and Python by           Shubham Sarda. 
+  * This is kind of clone for Imdb.
+  * Includes JWT Authentication, Throttling, Pagination, and many other features
+  
 * Version
-* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
+  1.0.0
 
-### How do I get set up? ###
 
-* Summary of set up
-* Configuration
-* Dependencies
-* Database configuration
-* How to run tests
-* Deployment instructions
-
-### Contribution guidelines ###
-
-* Writing tests
-* Code review
-* Other guidelines
-
-### Who do I talk to? ###
-
-* Repo owner or admin
-* Other community or team contact
